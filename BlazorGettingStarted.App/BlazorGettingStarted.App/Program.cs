@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Http;
+using BlazorGettingStarted.App.Services;
 
 namespace BlazorGettingStarted.App
 {
@@ -17,7 +19,12 @@ namespace BlazorGettingStarted.App
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("#app");
 
-            builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+            // Not using HttpClient directly as this project will be compatible with both client and server side implementations by using HttpClientFactory. 
+            //builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+
+            // HttpClientFactory implementation
+            builder.Services.AddHttpClient<IEmployeeDataService, EmployeeDataService>(client => client.BaseAddress = new Uri("https://localhost:44300/"));
+
 
             await builder.Build().RunAsync();
         }
