@@ -22,9 +22,10 @@ namespace BlazorGettingStarted.App
             // Not using HttpClient directly as this project will be compatible with both client and server side implementations by using HttpClientFactory. 
             //builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
-            // HttpClientFactory implementation
+            // HttpClientFactory implementation and services registered
             builder.Services.AddHttpClient<IEmployeeDataService, EmployeeDataService>(client => client.BaseAddress = new Uri("https://localhost:44300/"));
-
+            builder.Services.AddHttpClient<IRegionDataService, RegionDataService>(client => client.BaseAddress = new Uri("https://localhost:44300/"));
+            builder.Services.AddHttpClient<IJobCategoryDataService, JobCategoryDataService>(client => client.BaseAddress = new Uri("https://localhost:44300/"));
 
             await builder.Build().RunAsync();
         }

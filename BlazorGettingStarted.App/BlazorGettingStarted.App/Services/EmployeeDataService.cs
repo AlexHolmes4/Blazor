@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace BlazorGettingStarted.App.Services
 {
+    // service implements an interface so that it can be registered with the HttpClientFactory services collection
     public class EmployeeDataService : IEmployeeDataService
     {
         private readonly HttpClient _httpClient;
