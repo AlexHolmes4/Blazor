@@ -30,14 +30,65 @@ namespace BlazorGettingStarted.App.Pages
         protected string RegionId = string.Empty; //helper field for the two-way binding needed on input select
         protected string JobCategoryId = string.Empty;
 
+        //used to store state of form/screen
+        protected string Message = string.Empty;
+        protected string StatusClass = string.Empty;
+        protected bool Saved;  //check if form already submitted or not
+
         protected override async Task OnInitializedAsync()
         {
+            Saved = false; 
+
             Regions = (await RegionDataService.GetAllRegions()).ToList();
-            Employee = await EmployeeDataService.GetEmployeeDetails(int.Parse(EmployeeId));
             JobCategories = (await JobCategoryDataService.GetAllJobCategories()).ToList();
+
+            // for populating the Employee data on initalization; we check if page is for Add or Edit            
+            int.TryParse(EmployeeId, out var employeeId);
+            if(employeeId == 0) // new employee is being created
+            {
+                //add some defaults
+                Employee = new Employee { RegionId = 1, JobCategoryId = 1, BirthDate = DateTime.Now, JoinedDate = DateTime.Now };
+            }
+            else
+            {
+                Employee = await EmployeeDataService.GetEmployeeDetails(int.Parse(EmployeeId));
+            }
 
             RegionId = Employee.RegionId.ToString();
             JobCategoryId = Employee.JobCategoryId.ToString();
+        }
+
+        protected async Task HandleValidSubmit()
+        {
+            //assign to employee object the values we bound to on the input select's (this was due to limitation on binding to IEnumerables). 
+            Employee.RegionId = int.Parse(RegionId);
+            Employee.JobCategoryId = int.Parse(JobCategoryId);
+
+            Saved = false;
+
+            if (Employee.EmployeeId == 0) //new
+            {
+                var addedemployee = await EmployeeDataService.AddEmployee(Employee);
+                if (addedemployee != null)
+                {
+                    StatusClass = "alert-success";
+                    Message = "New employee added successfully.";
+                    Saved = true;
+                }
+                else
+                {
+                    StatusClass = "alert-danger";
+                    Message = "Something went wrong adding the new employee. Please try again.";
+                    Saved = false;
+                }
+            }
+            else
+            {
+                await EmployeeDataService.UpdateEmployee(Employee);
+                StatusClass = "alert-success";
+                Message = "Employee added successfully.";
+                Saved = true;
+            }
         }
     }
 }

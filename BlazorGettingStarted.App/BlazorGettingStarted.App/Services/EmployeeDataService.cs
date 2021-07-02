@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
@@ -18,16 +19,21 @@ namespace BlazorGettingStarted.App.Services
             _httpClient = httpClient;
         }
 
-        public Task<Employee> AddEmployee(Employee employee)
+        public async Task<Employee> AddEmployee(Employee employee)
         {
-            throw new NotImplementedException();
-        }
+            //converts employee into JSON
+            var employeeJson = new StringContent(JsonSerializer.Serialize(employee), Encoding.UTF8, "application/json");
 
-        public Task DeleteEmployee(int employeeId)
-        {
-            throw new NotImplementedException();
-        }
+            //Json string sent with HttpClient via HTTP RESTful method to api endpoint
+            var response = await _httpClient.PostAsync("api/employee", employeeJson);
 
+            //if success then employee was added, and we are getting back the added employee.
+            if (response.IsSuccessStatusCode)
+            {
+                return await JsonSerializer.DeserializeAsync<Employee>(await response.Content.ReadAsStreamAsync());
+            }
+            return null;
+        }
         public async Task<IEnumerable<Employee>> GetAllEmployees()
         {
             return await JsonSerializer.DeserializeAsync<IEnumerable<Employee>>
@@ -38,11 +44,19 @@ namespace BlazorGettingStarted.App.Services
         {
             return await JsonSerializer.DeserializeAsync<Employee>
                  (await _httpClient.GetStreamAsync($"api/employee/{employeeId}"), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+        }     
+
+        public async Task UpdateEmployee(Employee employee)
+        {
+            var employeeJson = new StringContent(JsonSerializer.Serialize(employee), Encoding.UTF8, "application/json");
+
+            await _httpClient.PutAsync("api/employee", employeeJson);
         }
 
-        public Task UpdateEmployee(Employee employee)
+        public async Task DeleteEmployee(int employeeId)
         {
-            throw new NotImplementedException();
+            await _httpClient.DeleteAsync($"api/employee/{employeeId}");
         }
+
     }
 }

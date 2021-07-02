@@ -1,4 +1,4 @@
-﻿
+﻿@* page directive without employee Id will be for adding *@
 @page "/employeeedit"
 @page "/employeeedit/{EmployeeId}"
 
@@ -7,7 +7,8 @@
 @*form inputs should update to the db, so two-way data binding used.*@
 <section class="employee-edit">
     <h1 class="page-title">Details for @Employee.FirstName @Employee.LastName</h1>
-    <EditForm Model="@Employee">
+    @*The EditForm is a blazor wrapped form, it's working with the code behind model Employee, and also has event handler methods for valid and invalid submissions'*@
+    <EditForm Model="@Employee" OnValidSubmit="@HandleValidSubmit" OnInvalidSubmit="@HandleInvalidSubmit">
 
         <div class="form-group row">
             <label for="lastName" class="col-sm-3">Last name: </label>
@@ -123,7 +124,7 @@
             <InputTextArea id="comment" class="form-control col-sm-8" @bind-Value="@Employee.Comment" placeholder="Enter comment"></InputTextArea>
         </div>
 
-
+        <button type="submit" class="btn btn-primary edit-btn">Save employee</button>
     </EditForm>
 </section>
 
