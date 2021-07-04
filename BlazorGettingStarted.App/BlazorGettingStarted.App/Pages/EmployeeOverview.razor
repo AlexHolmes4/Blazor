@@ -1,5 +1,4 @@
-﻿
-@page "/employeeoverview"
+﻿@page "/employeeoverview"
 
 <h1 class="page-title">All employees</h1>
 
@@ -40,3 +39,6 @@ else
         </tbody>
     </table>
 }
+
+<button @onclick="QuickAddEmployee" class="btn btn-dark table-btn quick-add-btn btn">&nbsp;&nbsp;+&nbsp;&nbsp;</button>
+<AddEmployeeDialog @ref="AddEmployeeDialog"></AddEmployeeDialog>

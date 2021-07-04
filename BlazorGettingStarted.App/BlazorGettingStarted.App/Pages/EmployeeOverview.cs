@@ -1,4 +1,5 @@
-﻿using BlazorGettingStarted.App.Services;
+﻿using BlazorGettingStarted.App.Components;
+using BlazorGettingStarted.App.Services;
 using BlazorGettingStarted.Shared;
 using Microsoft.AspNetCore.Components;
 using System;
@@ -16,10 +17,16 @@ namespace BlazorGettingStarted.App.Pages
         [Inject]
         public IEmployeeDataService EmployeeDataService { get; set; }
 
+        protected AddEmployeeDialog AddEmployeeDialog { get; set; }
+
         protected async override Task OnInitializedAsync()
         {
             Employees = (await EmployeeDataService.GetAllEmployees()).ToList();
         }
 
+        protected void QuickAddEmployee()
+        {
+            AddEmployeeDialog.Show();
+        }
     }
 }

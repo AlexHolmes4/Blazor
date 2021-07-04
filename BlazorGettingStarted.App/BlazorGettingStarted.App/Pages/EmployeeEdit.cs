@@ -19,6 +19,9 @@ namespace BlazorGettingStarted.App.Pages
 
         [Inject]
         public IJobCategoryDataService JobCategoryDataService { get; set; }
+
+        [Inject]
+        public NavigationManager NavigationManager { get; set; } //default class to allow navigation through code.
          
         [Parameter] // blazor will search for the employee ID in the Query String when this component is being invoked.
         public string EmployeeId { get; set; }
@@ -33,7 +36,7 @@ namespace BlazorGettingStarted.App.Pages
         //used to store state of form/screen
         protected string Message = string.Empty;
         protected string StatusClass = string.Empty;
-        protected bool Saved;  //check if form already submitted or not
+        protected bool Saved;  //check if form already submitted or not (used in UI)
 
         protected override async Task OnInitializedAsync()
         {
@@ -86,9 +89,30 @@ namespace BlazorGettingStarted.App.Pages
             {
                 await EmployeeDataService.UpdateEmployee(Employee);
                 StatusClass = "alert-success";
-                Message = "Employee added successfully.";
+                Message = "Employee updated successfully.";
                 Saved = true;
             }
+        }
+
+        protected void HandleInvalidSubmit()
+        {
+            StatusClass = "alert-danger";
+            Message = "There are some validation errors. Please try again.";
+        }
+
+        protected  async Task DeleteEmployee()
+        {
+            await EmployeeDataService.DeleteEmployee(Employee.EmployeeId);
+
+            StatusClass = "alert-success";
+            Message = "Deleted successfully";
+
+            Saved = true;
+        }
+
+        protected void NavigateToOverview()
+        {
+            NavigationManager.NavigateTo("/employeeoverview");
         }
     }
 }

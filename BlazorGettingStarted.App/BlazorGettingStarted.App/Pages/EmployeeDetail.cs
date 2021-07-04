@@ -18,7 +18,7 @@ namespace BlazorGettingStarted.App.Pages
         [Inject]
         public IEmployeeDataService EmployeeDataService { get; set; }
 
-        protected async override Task OnInitializedAsync()
+        protected override async Task OnInitializedAsync()
         {
             Employee = await EmployeeDataService.GetEmployeeDetails(int.Parse(EmployeeId));
         }
