@@ -22,7 +22,8 @@ else
             @foreach (var employee in Employees)
             {
                 <tr>
-                    <td><img src="@($"https://gillcleerenpluralsight.blob.core.windows.net/person/{employee.EmployeeId}-small.jpg")" class="rounded-circle" /></td>
+                    @*<td><img src="@($"https://gillcleerenpluralsight.blob.core.windows.net/person/{employee.EmployeeId}-small.jpg")" class="rounded-circle" /></td>*@
+                    <td><img src="@employee.ImageName" width="75" /></td>
                     <td>@employee.EmployeeId</td>
                     <td>@employee.FirstName</td>
                     <td>@employee.LastName</td>
@@ -41,4 +42,5 @@ else
 }
 
 <button @onclick="QuickAddEmployee" class="btn btn-dark table-btn quick-add-btn btn">&nbsp;&nbsp;+&nbsp;&nbsp;</button>
-<AddEmployeeDialog @ref="AddEmployeeDialog"></AddEmployeeDialog>
+@*subscribing to the CloseEventCallback being fired from the child component. When that event is raised invoke method to refresh list of employees and render component again*@
+<AddEmployeeDialog @ref="AddEmployeeDialog" CloseEventCallback="@AddEmployeeDialog_OnDialogClose"></AddEmployeeDialog>

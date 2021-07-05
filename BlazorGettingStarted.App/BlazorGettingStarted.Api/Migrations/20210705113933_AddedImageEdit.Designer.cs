@@ -10,68 +10,16 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BlazorGettingStarted.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20191101211029_Initial")]
-    partial class Initial
+    [Migration("20210705113933_AddedImageEdit")]
+    partial class AddedImageEdit
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "5.0.7")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
+                .HasAnnotation("ProductVersion", "5.0.7")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("BlazorGettingStarted.Shared.Region", b =>
-                {
-                    b.Property<int>("RegionId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("RegionId");
-
-                    b.ToTable("Regions");
-
-                    b.HasData(
-                        new
-                        {
-                            RegionId = 1,
-                            Name = "Western Australia"
-                        },
-                        new
-                        {
-                            RegionId = 2,
-                            Name = "New South Wales"
-                        },
-                        new
-                        {
-                            RegionId = 3,
-                            Name = "Queensland"
-                        },
-                        new
-                        {
-                            RegionId = 4,
-                            Name = "Tasmania"
-                        },
-                        new
-                        {
-                            RegionId = 5,
-                            Name = "South Australia"
-                        },
-                        new
-                        {
-                            RegionId = 6,
-                            Name = "Victoria"
-                        },
-                        new
-                        {
-                            RegionId = 7,
-                            Name = "Northern Territory"
-                        });
-                });
 
             modelBuilder.Entity("BlazorGettingStarted.Shared.Employee", b =>
                 {
@@ -87,22 +35,26 @@ namespace BlazorGettingStarted.Api.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Comment")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("RegionId")
-                        .HasColumnType("int");
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("ExitDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<int>("Gender")
                         .HasColumnType("int");
+
+                    b.Property<string>("ImageName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("JobCategoryId")
                         .HasColumnType("int");
@@ -111,7 +63,9 @@ namespace BlazorGettingStarted.Api.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<double>("Latitude")
                         .HasColumnType("float");
@@ -125,6 +79,9 @@ namespace BlazorGettingStarted.Api.Migrations
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("RegionId")
+                        .HasColumnType("int");
+
                     b.Property<bool>("Smoker")
                         .HasColumnType("bit");
 
@@ -136,9 +93,9 @@ namespace BlazorGettingStarted.Api.Migrations
 
                     b.HasKey("EmployeeId");
 
-                    b.HasIndex("RegionId");
-
                     b.HasIndex("JobCategoryId");
+
+                    b.HasIndex("RegionId");
 
                     b.ToTable("Employees");
 
@@ -149,7 +106,6 @@ namespace BlazorGettingStarted.Api.Migrations
                             BirthDate = new DateTime(1979, 1, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             City = "Brussels",
                             Comment = "Lorem Ipsum",
-                            RegionId = 1,
                             Email = "bethany@bethanyspieshop.com",
                             FirstName = "Bethany",
                             Gender = 1,
@@ -160,6 +116,7 @@ namespace BlazorGettingStarted.Api.Migrations
                             Longitude = 4.3517000000000001,
                             MaritalStatus = 1,
                             PhoneNumber = "324777888773",
+                            RegionId = 1,
                             Smoker = false,
                             Street = "Grote Markt 1",
                             Zip = "1000"
@@ -170,7 +127,6 @@ namespace BlazorGettingStarted.Api.Migrations
                             BirthDate = new DateTime(1979, 1, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             City = "Antwerp",
                             Comment = "Lorem Ipsum",
-                            RegionId = 2,
                             Email = "gill@bethanyspieshop.com",
                             FirstName = "Gill",
                             Gender = 0,
@@ -181,6 +137,7 @@ namespace BlazorGettingStarted.Api.Migrations
                             Longitude = 4.3517000000000001,
                             MaritalStatus = 0,
                             PhoneNumber = "33999909923",
+                            RegionId = 2,
                             Smoker = false,
                             Street = "New Street",
                             Zip = "2000"
@@ -249,19 +206,85 @@ namespace BlazorGettingStarted.Api.Migrations
                         });
                 });
 
+            modelBuilder.Entity("BlazorGettingStarted.Shared.Region", b =>
+                {
+                    b.Property<int>("RegionId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("RegionId");
+
+                    b.ToTable("Regions");
+
+                    b.HasData(
+                        new
+                        {
+                            RegionId = 1,
+                            Name = "Western Australia"
+                        },
+                        new
+                        {
+                            RegionId = 2,
+                            Name = "New South Wales"
+                        },
+                        new
+                        {
+                            RegionId = 3,
+                            Name = "Queensland"
+                        },
+                        new
+                        {
+                            RegionId = 4,
+                            Name = "Tasmania"
+                        },
+                        new
+                        {
+                            RegionId = 5,
+                            Name = "South Australia"
+                        },
+                        new
+                        {
+                            RegionId = 6,
+                            Name = "Victoria"
+                        },
+                        new
+                        {
+                            RegionId = 7,
+                            Name = "Northern Territory"
+                        },
+                        new
+                        {
+                            RegionId = 8,
+                            Name = "France"
+                        },
+                        new
+                        {
+                            RegionId = 9,
+                            Name = "Brazil"
+                        });
+                });
+
             modelBuilder.Entity("BlazorGettingStarted.Shared.Employee", b =>
                 {
+                    b.HasOne("BlazorGettingStarted.Shared.JobCategory", "JobCategory")
+                        .WithMany()
+                        .HasForeignKey("JobCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("BlazorGettingStarted.Shared.Region", "Region")
                         .WithMany()
                         .HasForeignKey("RegionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BlazorGettingStarted.Shared.JobCategory", "JobCategory")
-                        .WithMany()
-                        .HasForeignKey("JobCategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("JobCategory");
+
+                    b.Navigation("Region");
                 });
 #pragma warning restore 612, 618
         }

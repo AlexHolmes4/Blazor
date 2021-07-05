@@ -22,6 +22,9 @@ namespace BlazorGettingStarted.App.Components
 
         public bool ShowDialog { get; set; } //flag for if component is visible or not
 
+        [Parameter] // parameter attribute used so parent component can subscribe to this callback 
+        public EventCallback<bool>CloseEventCallback { get; set; } //raised to communicate to parent component that changes have occured with child (this)
+
         public void Show()
         {
             ResetDialog();
@@ -40,11 +43,12 @@ namespace BlazorGettingStarted.App.Components
             Employee = new Employee { RegionId = 1, JobCategoryId = 1, BirthDate = DateTime.Now, JoinedDate = DateTime.Now };
         }
 
-        protected async Task HandleValidSubmit()
+        protected async Task HandleValidSubmit() //commits to database
         {
             await EmployeeDataService.AddEmployee(Employee);
             ShowDialog = false;
 
+            await CloseEventCallback.InvokeAsync(true); // raises the event callback and uses invokeasync to pass other data (could include added employee here via the parameter)
             StateHasChanged();
         }
     }

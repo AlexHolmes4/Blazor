@@ -17,4 +17,9 @@
 		<ProjectReference Include="..\BlazorGettingStarted.Shared\BlazorGettingStarted.Shared.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Migrations\" />
+	  <Folder Include="wwwroot\uploads\" />
+	</ItemGroup>
+
 </Project>

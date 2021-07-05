@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorGettingStarted.Shared
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorGettingStarted.Api", "BlazorGettingStarted.Api\BlazorGettingStarted.Api.csproj", "{B73FE358-B27E-46AE-950B-2A91878039B5}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorGettingStarted.ComponentsLibrary", "BlazorGettingStarted.ComponentsLibrary\BlazorGettingStarted.ComponentsLibrary.csproj", "{AF71A966-7328-42F7-B2A0-86007947FE2A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{B73FE358-B27E-46AE-950B-2A91878039B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B73FE358-B27E-46AE-950B-2A91878039B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B73FE358-B27E-46AE-950B-2A91878039B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF71A966-7328-42F7-B2A0-86007947FE2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF71A966-7328-42F7-B2A0-86007947FE2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF71A966-7328-42F7-B2A0-86007947FE2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF71A966-7328-42F7-B2A0-86007947FE2A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

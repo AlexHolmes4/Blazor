@@ -1,8 +1,10 @@
 ﻿using BlazorGettingStarted.App.Services;
 using BlazorGettingStarted.Shared;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -61,6 +63,15 @@ namespace BlazorGettingStarted.App.Pages
             JobCategoryId = Employee.JobCategoryId.ToString();
         }
 
+        private IReadOnlyList<IBrowserFile> selectedFiles;
+
+        private void OnInputFileChange(InputFileChangeEventArgs e)
+        {
+            selectedFiles = e.GetMultipleFiles();
+            Message = $"(selectedFiles.Count) files(s) selected";
+            StateHasChanged();
+        }
+
         protected async Task HandleValidSubmit()
         {
             //assign to employee object the values we bound to on the input select's (this was due to limitation on binding to IEnumerables). 
@@ -71,6 +82,17 @@ namespace BlazorGettingStarted.App.Pages
 
             if (Employee.EmployeeId == 0) //new
             {
+                if (selectedFiles != null) // take first image
+                {
+                    var file = selectedFiles[0];
+                    Stream stream = file.OpenReadStream();
+                    MemoryStream ms = new MemoryStream();
+                    await stream.CopyToAsync(ms);
+                    stream.Close();
+
+                    Employee.ImageName = file.Name;
+                    Employee.ImageContent = ms.ToArray();
+                }
                 var addedemployee = await EmployeeDataService.AddEmployee(Employee);
                 if (addedemployee != null)
                 {

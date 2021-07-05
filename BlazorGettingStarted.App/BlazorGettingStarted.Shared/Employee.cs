@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BlazorGettingStarted.Shared
 {
@@ -42,5 +43,10 @@ namespace BlazorGettingStarted.Shared
 
         public double Latitude { get; set; }
         public double Longitude { get; set; }
+
+        [NotMapped]
+        public byte[] ImageContent { get; set; } //not stored in db but will be uploaded as part of the employee 
+
+        public string ImageName { get; set; } // will be stored in db
     }
 }

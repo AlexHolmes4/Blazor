@@ -28,5 +28,11 @@ namespace BlazorGettingStarted.App.Pages
         {
             AddEmployeeDialog.Show();
         }
+
+        public async void AddEmployeeDialog_OnDialogClose()
+        {
+            Employees = (await EmployeeDataService.GetAllEmployees()).ToList();
+            StateHasChanged();
+        }
     }
 }
