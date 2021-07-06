@@ -40,6 +40,14 @@ namespace BlazorGettingStarted.App.Pages
         protected string StatusClass = string.Empty;
         protected bool Saved;  //check if form already submitted or not (used in UI)
 
+
+        private ElementReference LastNameInput;
+        protected async override Task OnAfterRenderAsync(bool firstRender)
+        {
+            await LastNameInput.FocusAsync();
+        }
+
+
         protected override async Task OnInitializedAsync()
         {
             Saved = false; 
