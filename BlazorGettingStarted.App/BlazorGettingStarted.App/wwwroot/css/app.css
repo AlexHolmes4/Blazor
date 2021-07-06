@@ -23,6 +23,12 @@ nav {
     border-color: orangered;
 }
 
+.virtualized {
+    overflow: auto;
+    width: 100%;
+    height: 600px;
+}
+
 #logo {
     width: 80%;
     padding-top: 15px;
