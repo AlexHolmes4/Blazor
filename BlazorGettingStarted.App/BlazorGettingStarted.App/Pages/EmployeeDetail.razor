@@ -108,7 +108,16 @@
                         <label type="text" readonly class="form-control-plaintext">@Employee.ExitDate?.ToShortDateString()</label>
                     </div>
                 </div>
+
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Uploaded Image</label>
+                    <div class="col-sm-8">
+                        <img src="@Employee.ImageName" width="75" />
+                    </div>
+                </div>
+
             </div>
+
             <div class="col-xs-12 col-sm-4">
                 <div class="track-order-map">
                     <Map Zoom="10" Markers="MapMarkers"></Map>
